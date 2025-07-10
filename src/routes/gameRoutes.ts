@@ -15,11 +15,14 @@ router.get('/', async (req, res) => {
 
 // post new game
 router.post('/', async (req, res) => {
+  console.log('Incoming POST /api/games', req.body);
   try {
     const newGame = new Game(req.body);
     await newGame.save();
+    console.log('Game saved!');
     res.status(201).json(newGame);
   } catch (err) {
+    console.error('Error saving game:', err);
     res.status(500).json({ message: 'Failed to save game' });
   }
 });
