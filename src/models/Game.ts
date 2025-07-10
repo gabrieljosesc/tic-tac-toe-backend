@@ -12,4 +12,5 @@ const GameSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export const Game = mongoose.model('Game', GameSchema);
+export const Game = mongoose.model('Game', GameSchema, 'games');
+

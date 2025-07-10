@@ -22,8 +22,12 @@ app.use('/api/games', gameRoutes);
 
 mongoose
   .connect(MONGO_URI)
-  .then(() => {
+  .then(async () => {
     console.log('Connected to MongoDB');
+
+    const db = mongoose.connection;
+    console.log('Current DB name:', db.name); // should be "tictactoe"
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
