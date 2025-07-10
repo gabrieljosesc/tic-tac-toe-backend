@@ -9,16 +9,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
-app.use('/api/games', gameRoutes);
+const mongoUri = process.env.MONGO_URI;
+
+if (!mongoUri) {
+  console.error("MONGO_URI not found in environment variables");
+  process.exit(1);
+}
 
 mongoose
-  .connect(process.env.MONGO_URI!)
+  .connect(mongoUri)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   })
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
